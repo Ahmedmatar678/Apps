@@ -300,6 +300,19 @@
 .validation-msg { font-size: 11px; font-weight: bold; margin-bottom: 12px; display: block; text-align: right; transition: color 0.3s; }
 .val-red { color: var(--red); }
 .val-green { color: var(--green); }
+        /* 🌟 حركة الشعار الداخلي (نبض احترافي كل 5 ثوانٍ) 🌟 */
+        @keyframes bomaProfessionalPulse {
+            0%, 100% { transform: scale(1); }
+            5% { transform: scale(1.1); filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); }
+            10% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+            15% { transform: scale(1.05); }
+            20% { transform: scale(1); }
+        }
+        .boma-pulse-anim {
+            animation: bomaProfessionalPulse 5s infinite ease-in-out;
+            display: inline-block;
+            transform-origin: center;
+        }
 
     </style>
 </head>
@@ -2335,19 +2348,31 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
                     logoHtml = `<div style="width: 120px; height: 120px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-size: 60px; color: var(--primary-blue);">${ui.loginLogoValue || '🦉'}</div>`;
                 }
 
+                                // تطبيق استايل "برافو": النص الأساسي أبيض، مع تدرج لوني مخصص لحرف (O) وحرف (و)
+                let rawText = ui.loginBrandText || 'BOMA بومة';
+                let topCol = ui.loginBrandColorTop || '#ff6e40';
+                let botCol = ui.loginBrandColorBottom || '#d35400';
+                
+                // ستايل التدرج اللوني الذي سيتم تطبيقه على الحروف المحددة فقط
+                let gradientStyle = `background: linear-gradient(135deg, ${topCol}, ${botCol}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;`;
+
+                // استبدال ذكي للحروف لتلوينها دون المساس بباقي النص
+                let styledText = rawText
+                    .replace(/O/gi, `<span style="${gradientStyle}">$&</span>`)
+                    .replace(/و/g, `<span style="${gradientStyle}">و</span>`);
+
                 let textHtml = `
                     <div style="text-align: center; width: 100%;">
                         <h1 style="
                             margin-top: 15px; 
-                            font-size: 38px; 
+                            font-size: 40px; 
                             font-weight: 900; 
-                            background: linear-gradient(to right, ${ui.loginBrandColorTop || '#ff6e40'}, ${ui.loginBrandColorBottom || '#ffffff'}); 
-                            -webkit-background-clip: text; 
-                            -webkit-text-fill-color: transparent; 
-                            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.5));
+                            color: #ffffff; 
+                            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.4));
                             direction: ltr;
                             display: inline-block;
-                        ">${ui.loginBrandText || 'BOMA بومة'}</h1>
+                            letter-spacing: 1px;
+                        ">${styledText}</h1>
                     </div>
                 `;
 
@@ -2355,17 +2380,25 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             });
 
             // 2. تحديث الأيقونات الصغيرة في الهيدر الداخلي للتطبيق
+                        // 2. تحديث الأيقونات الصغيرة في الهيدر الداخلي للتطبيق (تصميم عصري بدون خلفية)
+                        // 2. تحديث الأيقونات الصغيرة في الهيدر الداخلي للتطبيق (تصميم عصري وحركة احترافية)
             const headerLogos = document.querySelectorAll('.boma-fixed-icon');
             headerLogos.forEach(logo => {
+                // تصفير إعدادات الحاوية لضمان الشفافية
+                logo.style.background = 'transparent';
+                logo.style.padding = '0';
+                logo.style.border = 'none';
+                logo.style.boxShadow = 'none';
+
                 if (ui.homeLogoType === 'image' && ui.homeLogoValue) {
-                    logo.innerHTML = `<img src="${ui.homeLogoValue}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">`;
-                    logo.style.background = 'transparent';
-                    logo.style.padding = '0';
-                    logo.style.border = 'none';
+                    // إضافة كلاس الحركة boma-pulse-anim للصورة
+                    logo.innerHTML = `<img src="${ui.homeLogoValue}" class="boma-pulse-anim" style="width: 45px; height: 45px; object-fit: contain; background: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">`;
                 } else {
-                    logo.innerHTML = `<span style="font-size:24px;">${ui.homeLogoValue || '🦉'}</span>`;
+                    // إضافة كلاس الحركة boma-pulse-anim للنص/الإيموجي
+                    logo.innerHTML = `<span class="boma-pulse-anim" style="font-size:26px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">${ui.homeLogoValue || '🦉'}</span>`;
                 }
             });
+
         })
         .catch(err => console.log("خطأ في تحميل الشعار:", err));
     }
