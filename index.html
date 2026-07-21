@@ -654,7 +654,6 @@
             </div>
             
             <!-- إضافة منتج جديد -->
-                       <!-- إضافة منتج جديد -->
             <div style="background:var(--card-bg); padding:20px; border-radius:20px; border:1px solid var(--accent-orange); margin-bottom:20px; box-shadow:0 6px 15px rgba(255,110,64,0.05);">
                 <h3 style="color:var(--accent-orange); font-size:16px; margin-bottom:15px; font-weight:900;">➕ إضافة منتج جديد</h3>
                 
@@ -686,13 +685,10 @@
             <!-- قائمة منتجات التاجر -->
             <h3 style="font-size:16px; margin-bottom:15px; color:var(--text-dark); font-weight:900;">📦 منتجاتي الحالية</h3>
             <div id="vendor-products-list" style="display:flex; flex-direction:column; gap:12px; padding-bottom:30px;"></div>
-
-
-            <!-- قائمة منتجات التاجر -->
-            <h3 style="font-size:16px; margin-bottom:15px; color:var(--text-dark); font-weight:900;">📦 منتجاتي الحالية</h3>
-            <div id="vendor-products-list" style="display:flex; flex-direction:column; gap:12px; padding-bottom:30px;"></div>
+            
         </div>
     </div>
+
 
     <div id="transfer-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="transfer_title">تحويل أموال BOMA</div><button class="back-btn" onclick="switchScreen('home-screen',0)">↩</button></div><div class="app-content"><div class="grid-section-title" data-key="transfer_info">بيانات التحويل</div><div class="form-group"><label data-key="receiver_acc">رقم حساب المستلم (10 أرقام)</label><input type="number" id="transfer-receiver" oninput="checkReceiverName()"><div id="receiver-name-display" style="color: var(--accent-green); font-size: 15px; font-weight: 900; margin-top: 10px; display: none;"></div></div><div class="form-group"><label data-key="amount_sdg">المبلغ المراد تحويله (SDG)</label><input type="number" id="transfer-amount" placeholder="0.00"></div><div id="transfer-error" class="error-message"></div><button class="btn-main" onclick="handleTransfer()" data-key="btn_send_money" style="border:none;">إرسال الأموال 💸</button></div></div>
       <div id="deposit-screen" class="screen">
@@ -2250,7 +2246,7 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         }
     }
 
-            async function submitVendorProduct() {
+                async function submitVendorProduct() {
         const categoryId = document.getElementById('v-cat').value;
         const brandName = document.getElementById('v-brand-name').value.trim();
         const arName = document.getElementById('v-name-ar').value.trim();
@@ -2286,7 +2282,7 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const data = await res.json();
             if (res.ok) {
                 showToast('تم نشر المنتج في المتجر! 🎉');
-                // تصفير الحقول بعد الرفع
+                // تصفير الحقول
                 document.getElementById('v-brand-name').value = '';
                 document.getElementById('v-name-ar').value = '';
                 document.getElementById('v-name-en').value = '';
