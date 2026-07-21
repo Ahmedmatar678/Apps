@@ -2229,16 +2229,17 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         }
     }
 
-    async function submitVendorProduct() {
+        async function submitVendorProduct() {
         const categoryId = document.getElementById('v-cat').value;
+        const brandName = document.getElementById('v-brand-name').value.trim();
         const arName = document.getElementById('v-name').value.trim();
         const price = Number(document.getElementById('v-price').value);
         const minPrice = Number(document.getElementById('v-min-price').value) || price;
         const stock = Number(document.getElementById('v-stock').value) || 0;
         const imgUrl = document.getElementById('v-img-url').value.trim();
 
-        if (!categoryId || !arName || !price || !imgUrl) {
-            return showToast('الرجاء إكمال جميع الحقول بشكل صحيح!', true);
+        if (!categoryId || !brandName || !arName || !price || !imgUrl) {
+            return showToast('الرجاء إدخال العلامة التجارية وجميع الحقول بشكل صحيح!', true);
         }
 
         if (minPrice > price) {
@@ -2251,11 +2252,13 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const res = await fetch(`${API_URL}/vendor/products`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ categoryId, arName, enName: arName, price, minPrice, stock, img: imgUrl })
+                // 🌟 إرسال العلامة التجارية في الطلب 🌟
+                body: JSON.stringify({ categoryId, brandName, arName, enName: arName, price, minPrice, stock, img: imgUrl })
             });
             const data = await res.json();
             if (res.ok) {
                 showToast('تم نشر المنتج في المتجر! 🎉');
+                document.getElementById('v-brand-name').value = '';
                 document.getElementById('v-name').value = '';
                 document.getElementById('v-price').value = '';
                 document.getElementById('v-min-price').value = '';
@@ -2270,6 +2273,7 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             showToast('خطأ في الرفع', true);
         }
     }
+
 
     async function deleteVendorProduct(id) {
         if (!confirm('هل أنت متأكد من حذف المنتج نهائياً من المتجر؟')) return;
