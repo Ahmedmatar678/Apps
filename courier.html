@@ -16,14 +16,15 @@
         
         .app-container { width: 100%; max-width: 450px; height: 100%; background: var(--bg); display: flex; flex-direction: column; position: relative; border-left: 1px solid var(--border); border-right: 1px solid var(--border); box-shadow: 0 0 20px rgba(0,0,0,0.05); }
         
-        .header { background: var(--card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
+        /* 🌟 البار العلوي باللون الأزرق المتدرج 🌟 */
+        .header { background: linear-gradient(135deg, var(--primary-shine), var(--primary)); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: none; z-index: 10; color: #ffffff; box-shadow: 0 4px 15px rgba(30, 61, 89, 0.2); }
         .logo-box { display: flex; align-items: center; gap: 10px; }
         .logo-icon { font-size: 28px; }
-        .logo-text { font-size: 18px; font-weight: 900; color: var(--accent); letter-spacing: 1px; }
+        .logo-text { font-size: 18px; font-weight: 900; color: #ffffff; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         
-        .status-toggle { background: var(--border); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 900; cursor: pointer; transition: 0.3s; display: none; align-items: center; gap: 5px; }
-        .status-toggle.online { background: rgba(16, 185, 129, 0.1); color: var(--green); border: 1px solid var(--green); }
-        .status-toggle.offline { background: rgba(239, 68, 68, 0.1); color: var(--red); border: 1px solid var(--red); }
+        .status-toggle { background: rgba(255, 255, 255, 0.15); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 900; cursor: pointer; transition: 0.3s; display: none; align-items: center; gap: 5px; }
+        .status-toggle.online { color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.5); }
+        .status-toggle.offline { color: #f87171; border: 1px solid rgba(248, 113, 113, 0.5); }
 
         .screen { display: none; flex: 1; overflow-y: auto; padding: 20px; flex-direction: column; }
         .screen.active { display: flex; animation: fadeIn 0.3s ease; }
@@ -35,6 +36,8 @@
         input:focus { border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 4px rgba(255,110,64,0.1); }
         .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.2s; color: #fff; }
         .btn:active { transform: scale(0.95); }
+        
+        /* 🌟 الأزرار الرئيسية باللون البرتقالي المتدرج 🌟 */
         .btn-main { background: linear-gradient(135deg, var(--accent), #d35400); box-shadow: 0 6px 15px rgba(255,110,64,0.25); }
         .btn-green { background: linear-gradient(135deg, var(--green), #059669); box-shadow: 0 6px 15px rgba(16,185,129,0.25); }
         .btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
@@ -172,7 +175,7 @@
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
             <div id="status-toggle" class="status-toggle online" onclick="toggleStatus()">🟢 متصل</div>
-            <div id="btn-logout" style="display:none; cursor:pointer; font-size:22px; filter:grayscale(1); opacity:0.7;" onclick="logout()">🚪</div>
+            <div id="btn-logout" style="display:none; cursor:pointer; font-size:22px; filter:grayscale(0); drop-shadow: 0 2px 4px rgba(0,0,0,0.2);" onclick="logout()">🚪</div>
         </div>
     </div>
 
@@ -538,32 +541,20 @@
                 if (ui.homeLogoType === 'image' && ui.homeLogoValue) {
                     logoBox.innerHTML = `
                         <img src="${ui.homeLogoValue}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid #fff;">
-                        <span class="logo-text" style="font-size: 18px; font-weight: 900; letter-spacing: 1px;">كابتن بومة</span>
+                        <span class="logo-text" style="font-size: 18px; font-weight: 900; letter-spacing: 1px; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">كابتن بومة</span>
                     `;
                 } else {
                     logoBox.innerHTML = `
-                        <div style="width: 42px; height: 42px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 22px;">${ui.homeLogoValue || '🦉'}</div>
-                        <span class="logo-text" style="font-size: 18px; font-weight: 900; letter-spacing: 1px;">كابتن بومة</span>
+                        <div style="width: 42px; height: 42px; background: rgba(255,255,255,0.2); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 22px; border: 1px solid rgba(255,255,255,0.3);">${ui.homeLogoValue || '🦉'}</div>
+                        <span class="logo-text" style="font-size: 18px; font-weight: 900; letter-spacing: 1px; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">كابتن بومة</span>
                     `;
-                }
-
-                const logoText = logoBox.querySelector('.logo-text');
-                if (logoText && ui.loginBrandColorTop) {
-                    logoText.style.background = `linear-gradient(to right, ${ui.loginBrandColorTop}, ${ui.loginBrandColorBottom || '#1e3d59'})`;
-                    logoText.style.webkitBackgroundClip = 'text';
-                    logoText.style.webkitTextFillColor = 'transparent';
                 }
             }
 
             if (ui.btnMainBg) {
                 const style = document.createElement('style');
-                style.innerHTML = `
-                    :root { --accent: ${ui.btnMainBg}; }
-                    .btn-main { background: linear-gradient(135deg, ${ui.btnMainBg}, ${ui.btnMainBg}dd) !important; box-shadow: 0 6px 15px ${ui.btnMainBg}44 !important; }
-                    .tab.active { background: ${ui.btnMainBg} !important; }
-                    .order-card::before { background: ${ui.btnMainBg} !important; }
-                    input:focus { border-color: ${ui.btnMainBg} !important; box-shadow: 0 0 0 4px ${ui.btnMainBg}15 !important;}
-                `;
+                // تم إيقاف تعديل الألوان من الإدارة للحفاظ على التصميم المخصص اللي طلبته
+                // style.innerHTML = `...`; 
                 document.head.appendChild(style);
             }
         })
