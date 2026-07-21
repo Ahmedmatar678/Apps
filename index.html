@@ -545,6 +545,10 @@
             </div>
             <div class="det-gallery-scroll" id="det-gallery"></div>
             <h3 id="det-name" style="color:var(--primary-blue); margin-bottom:8px; font-size: 20px; font-weight: 900;"></h3>
+            <div style="display: inline-block; padding: 4px 10px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 12px;">
+                🏪 البائع: <span id="det-vendor-name" style="color: var(--primary-blue); font-weight: 900;">بومة</span>
+            </div>
+
             <div id="det-stock-badge" style="font-size: 14px; font-weight: 900; margin-bottom: 15px; display: inline-block; padding: 6px 14px; border-radius: 10px;"></div>
             <h4 id="det-price" style="color:var(--accent-orange); margin-bottom:20px; font-size: 24px; font-weight: 900;"></h4>
             <div class="avg-rating-badge" id="det-avg-rating">⭐ لا يوجد تقييمات بعد</div>
@@ -1359,7 +1363,9 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const isFav = wishlist.includes(p._id);
             const favIcon = `<div class="wishlist-icon ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlist('${p._id}', this)">🔖</div>`;
             
-            prod.innerHTML += `<div class="product-card" onclick="openProductByID(${idx})">${favIcon}${outOfStockLabel}<div class="product-img" style="background:transparent;">${imgDisplay}</div><div class="product-title">${currentLang === 'ar' ? p.arName : p.enName}</div><div style="display:flex; justify-content:space-between; align-items:center;"><div class="product-price">${Number(p.price).toLocaleString('en-US')} SDG</div><div style="font-size:12px; color:#d97706; font-weight:900;">${ratingText}</div></div></div>`;
+            let vName = (p.vendorIdentity && p.vendorIdentity !== 'admin') ? (p.vendorName || 'تاجر شريك') : (currentLang === 'ar' ? 'بومة' : 'BOMA');
+            prod.innerHTML += `<div class="product-card" onclick="openProductByID(${idx})">${favIcon}${outOfStockLabel}<div class="product-img" style="background:transparent;">${imgDisplay}</div><div class="product-title">${currentLang === 'ar' ? p.arName : p.enName}</div><div style="font-size:11px; color:var(--text-muted); margin-bottom:6px; font-weight:bold;">🏪 ${vName}</div><div style="display:flex; justify-content:space-between; align-items:center;"><div class="product-price">${Number(p.price).toLocaleString('en-US')} SDG</div><div style="font-size:12px; color:#d97706; font-weight:900;">${ratingText}</div></div></div>`;
+
         });
     }
 
@@ -1394,7 +1400,9 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const isFav = wishlist.includes(p._id);
             const favIcon = `<div class="wishlist-icon ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlist('${p._id}', this)">🔖</div>`;
             
-            container.innerHTML += `<div class="product-card" onclick="openProductByID(${idx})">${favIcon}${outOfStockLabel}<div class="product-img" style="background:transparent;">${imgDisplay}</div><div class="product-title">${currentLang === 'ar' ? p.arName : p.enName}</div><div style="display:flex; justify-content:space-between; align-items:center;"><div class="product-price">${Number(p.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} SDG</div><div style="font-size:12px; color:#d97706; font-weight:900;">${ratingText}</div></div></div>`;
+            let vName = (p.vendorIdentity && p.vendorIdentity !== 'admin') ? (p.vendorName || 'تاجر شريك') : (currentLang === 'ar' ? 'بومة' : 'BOMA');
+            container.innerHTML += `<div class="product-card" onclick="openProductByID(${idx})">${favIcon}${outOfStockLabel}<div class="product-img" style="background:transparent;">${imgDisplay}</div><div class="product-title">${currentLang === 'ar' ? p.arName : p.enName}</div><div style="font-size:11px; color:var(--text-muted); margin-bottom:6px; font-weight:bold;">🏪 ${vName}</div><div style="display:flex; justify-content:space-between; align-items:center;"><div class="product-price">${Number(p.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} SDG</div><div style="font-size:12px; color:#d97706; font-weight:900;">${ratingText}</div></div></div>`;
+
         });
         
         container.innerHTML += `<button class="btn-main btn-outline" style="grid-column: span 2; margin-top:10px;" onclick="switchScreen('shop-screen',1)">${currentLang === 'ar' ? 'تصفح كل المنتجات 🛒' : 'View All Products 🛒'}</button>`;
@@ -1491,6 +1499,11 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         currentSelectedProduct = { id: p._id, arName: p.arName, enName: p.enName, price: p.price, img: p.img, stock: p.stock || 0 };
         
         document.getElementById('det-name').innerText = currentLang === 'ar' ? p.arName : p.enName;
+        document.getElementById('det-desc').innerText = currentLang === 'ar' ? p.arDesc : p.enDesc;
+        
+        let vendorDisplayName = (p.vendorIdentity && p.vendorIdentity !== 'admin') ? (p.vendorName || 'تاجر شريك') : (currentLang === 'ar' ? 'مستودعات بومة' : 'BOMA Store');
+        document.getElementById('det-vendor-name').innerText = vendorDisplayName;
+
         document.getElementById('det-desc').innerText = currentLang === 'ar' ? p.arDesc : p.enDesc;
         
         const safeImg = p.img || '📦';
