@@ -1446,13 +1446,41 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         const finalAmount = cartTotal + deliveryCost; const totalDisplay = document.getElementById('payment-final-total'); if (totalDisplay) totalDisplay.innerText = finalAmount.toLocaleString('en-US') + ' SDG';
     }
 
-    function renderDynamicBanners() {
+        function renderDynamicBanners() {
         const carouselContainer = document.getElementById('main-carousel'); const staticBannerContainer = document.getElementById('static-banner-container'); if (!carouselContainer || !staticBannerContainer) return;
         carouselContainer.innerHTML = ''; staticBannerContainer.innerHTML = ''; const carousels = bannersData.filter(b => b.placement === 'carousel'); const statics = bannersData.filter(b => b.placement === 'static');
-        if (carousels.length === 0) { carouselContainer.innerHTML = `<div class="slider-card" style="background:var(--primary-blue)"><h3>BOMA Platform</h3></div>`; } else { carousels.forEach(c => { const title = currentLang === 'ar' ? c.arTitle : c.enTitle; const desc = currentLang === 'ar' ? c.arDesc : c.enDesc; const safeImg = c.imgUrl || ''; const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${safeImg}') center/cover` : safeImg; carouselContainer.innerHTML += `<div class="slider-card" style="background: ${bgStyle};"><h3>${title}</h3><p>${desc}</p></div>`; }); }
-        if (statics.length > 0) { const s = statics[0]; const title = currentLang === 'ar' ? s.arTitle : s.enTitle; const desc = currentLang === 'ar' ? s.arDesc : s.enDesc; const safeImg = s.imgUrl || ''; const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${safeImg}') center/cover` : safeImg; staticBannerContainer.innerHTML = `<div class="static-banner" style="background: ${bgStyle};"><div><h4>${title}</h4><p>${desc}</p></div><div class="static-badge" data-key="badge_offers">${languages[currentLang].badge_offers}</div></div>`; }
+        
+        // 1. معالجة السلايدر المتحرك (العلوي)
+        if (carousels.length === 0) { 
+            carouselContainer.innerHTML = `<div class="slider-card" style="background:var(--primary-blue)"><h3>BOMA Platform</h3></div>`; 
+        } else { 
+            carousels.forEach(c => { 
+                const title = currentLang === 'ar' ? c.arTitle : c.enTitle; 
+                const desc = currentLang === 'ar' ? c.arDesc : c.enDesc; 
+                const safeImg = c.imgUrl || ''; 
+                // إزالة التدرج اللوني الداكن ليظهر التصميم الجاهز بوضوح
+                const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `url('${safeImg}') center/cover no-repeat` : safeImg; 
+                // إخفاء النصوص المكتوبة إذا كانت فارغة في لوحة الإدارة
+                let textContent = (title || desc) ? `<h3>${title}</h3><p>${desc}</p>` : '';
+                carouselContainer.innerHTML += `<div class="slider-card" style="background: ${bgStyle}; width: 100%; height: 100%; border-radius: 12px;">${textContent}</div>`; 
+            }); 
+        }
+        
+        // 2. معالجة البانر الثابت (السفلي)
+        if (statics.length > 0) { 
+            const s = statics[0]; 
+            const title = currentLang === 'ar' ? s.arTitle : s.enTitle; 
+            const desc = currentLang === 'ar' ? s.arDesc : s.enDesc; 
+            const safeImg = s.imgUrl || ''; 
+            // إزالة التدرج اللوني الداكن ليظهر التصميم الجاهز بوضوح
+            const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `url('${safeImg}') center/cover no-repeat` : safeImg; 
+            // إخفاء النصوص المكتوبة إذا كانت فارغة في لوحة الإدارة
+            let textContent = (title || desc) ? `<div><h4>${title}</h4><p>${desc}</p></div><div class="static-badge" data-key="badge_offers">${languages[currentLang].badge_offers}</div>` : '';
+            staticBannerContainer.innerHTML = `<div class="static-banner" style="background: ${bgStyle}; border: none;">${textContent}</div>`; 
+        }
         resetSliderPosition();
     }
+
 
     function renderCountriesDropdown() { ['login', 'signup', 'forgot'].forEach(screen => { const select = document.getElementById(`${screen}-country-select`); if (!select) return; const curr = countryRules[screen]?.index || 0; select.innerHTML = countriesDatabase.map((c, i) => `<option value="${i}">${currentLang === 'ar' ? c.ar : c.en}</option>`).join(''); select.selectedIndex = curr; updateCountryRules(select, screen); }); }
     function updateCountryRules(selectNode, screen) { if (!selectNode || selectNode.options.length === 0) return; const idx = parseInt(selectNode.value || '0'); const c = countriesDatabase[idx]; countryRules[screen] = { code: c.key, len: c.len, index: idx }; const input = document.getElementById(`${screen}-phone`); if (input) { input.maxLength = c.len; input.placeholder = currentLang === 'ar' ? `مطلوب ${c.len} أرقام...` : `Exactly ${c.len} digits...`; } }
@@ -2547,30 +2575,6 @@ document.getElementById('reg-password')?.addEventListener('input', function() {
     }
 });
 
-// 🛡️ المراقبة اللحظية لقوة رمز الـ PIN (أثناء الكتابة)
-document.getElementById('reg-pin')?.addEventListener('input', function() {
-    this.value = this.value.replace(/[^0-9]/g, ''); // منع كتابة الحروف نهائياً
-    const pin = this.value;
-    const hint = document.getElementById('pin-hint');
-    
-    if (pin.length !== 6) {
-        hint.className = 'validation-msg val-red';
-        hint.innerText = `اكتب 6 أرقام (متبقي ${6 - pin.length}) ❌`;
-        return;
-    }
-    
-    const isAllSame = pin.split('').every(char => char === pin[0]);
-    const seqUp = '0123456789'; const seqDown = '9876543210';
-    const isSequential = seqUp.includes(pin) || seqDown.includes(pin);
-
-    if (isAllSame || isSequential) {
-        hint.className = 'validation-msg val-red';
-        hint.innerText = 'رمز ضعيف جداً (متطابق أو متسلسل) ❌';
-    } else {
-        hint.className = 'validation-msg val-green';
-        hint.innerText = 'رمز PIN آمن وجاهز ✅';
-    }
-});
     // 🌟 التعديل الثاني: تسجيل الـ Service Worker (PWA) 🌟
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
