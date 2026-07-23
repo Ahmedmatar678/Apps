@@ -1910,7 +1910,9 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         
         let cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
         const finalAmount = cartTotal + deliveryCost;
-        const detailsStr = `${name} | ${phone} | ${areaText} | ${address}`;
+        // 🌟 جعلنا رقم الهاتف في البداية ليقرأه السيرفر وتطبيق المندوب كـ (واتساب) 🌟
+        const detailsStr = `${phone} | ${name} | ${areaText} | ${address}`;
+
 
         if (selectedPayment === 'wallet') {
             showCustomDialog('💳', currentLang === 'ar' ? 'تأكيد الدفع' : 'Confirm Payment', currentLang === 'ar' ? 'أدخل رمز PIN لتأكيد الشراء من محفظتك' : 'Enter PIN to confirm purchase', currentLang === 'ar' ? 'دفع الآن' : 'Pay Now', currentLang === 'ar' ? 'إلغاء' : 'Cancel', async (pinVal) => {
