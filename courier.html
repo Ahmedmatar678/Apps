@@ -13,7 +13,6 @@
         }
         * { box-sizing: border-box; font-family: system-ui, sans-serif; margin: 0; padding: 0; }
         
-        /* 🌟 التعديل الأول: استخدام 100dvh لتجنب قص الشاشة 🌟 */
         body { background: var(--bg); color: var(--text); display: flex; justify-content: center; height: 100dvh; overflow: hidden; }
         
         .app-container { width: 100%; max-width: 450px; height: 100%; background: var(--bg); display: flex; flex-direction: column; position: relative; border-left: 1px solid var(--border); border-right: 1px solid var(--border); box-shadow: 0 0 20px rgba(0,0,0,0.05); }
@@ -65,13 +64,13 @@
         .o-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; color: var(--text-muted); font-weight: bold; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
         .o-price { font-size: 22px; font-weight: 900; color: var(--text); direction: ltr; text-align: right; }
         .o-fee { font-size: 14px; color: var(--green); font-weight: 900; margin-top: 5px; }
-        .o-location { font-size: 14px; font-weight: 900; margin: 15px 0; padding: 12px; background: var(--bg); border-radius: 12px; color: var(--text); border: 1px solid var(--border); }
+        .o-location { font-size: 14px; font-weight: 900; padding: 12px; background: var(--bg); border-radius: 12px; color: var(--text); border: 1px solid var(--border); }
         .badge-paid { display: inline-block; padding: 6px 10px; background: rgba(16,185,129,0.1); color: var(--green); border-radius: 8px; font-size: 12px; font-weight: 900; border: 1px solid rgba(16,185,129,0.2); }
         .badge-cash { display: inline-block; padding: 6px 10px; background: rgba(239,68,68,0.1); color: var(--red); border-radius: 8px; font-size: 12px; font-weight: 900; border: 1px solid rgba(239,68,68,0.2); }
 
         .action-flex { display: flex; gap: 8px; margin-top: 15px; }
         
-        /* 🌟 التعديل الثاني: تثبيت البار السفلي وتحديد عرضه 🌟 */
+        /* 🌟 البار السفلي 🌟 */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; height: 75px; background: var(--card); border-top: 1px solid var(--border); display: none; justify-content: space-around; align-items: center; z-index: 100; box-shadow: 0 -5px 25px rgba(0,0,0,0.06); border-radius: 30px 30px 0 0; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { text-align: center; color: var(--text-muted); font-size: 12px; cursor: pointer; font-weight: 900; transition: 0.2s; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
@@ -262,7 +261,25 @@
         return id;
     }
 
-    // 🌟 دالة التنقل بين الشاشات السفلية 🌟
+    // 🌟 دوال الاتصال وفتح الواتساب الذكية 🌟
+    function callPhone(phoneStr) {
+        if(!phoneStr || phoneStr.trim() === '') return showToast('رقم الهاتف غير متاح', true);
+        window.open(`tel:${phoneStr}`, '_self');
+    }
+
+    function openWhatsApp(phoneStr) {
+        if(!phoneStr || phoneStr.trim() === '') return showToast('رقم الهاتف غير متاح', true);
+        // تنظيف الرقم من أي نصوص أو مسافات
+        let cleaned = phoneStr.replace(/\D/g, '');
+        // تحويل الرقم المحلي إلى دولي
+        if(cleaned.startsWith('0')) {
+            cleaned = '249' + cleaned.substring(1);
+        } else if (cleaned.length === 9) {
+            cleaned = '249' + cleaned;
+        }
+        window.open(`https://wa.me/${cleaned}`, '_blank');
+    }
+
     function switchScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -380,7 +397,7 @@
 
             let targetCount = data.dailyDeliveries || 0;
             document.getElementById('target-count').innerText = targetCount;
-            document.getElementById('profile-deliveries').innerText = targetCount; // تحديث في البروفايل
+            document.getElementById('profile-deliveries').innerText = targetCount;
 
             let progressPct = (targetCount / 10) * 100;
             if (progressPct > 100) progressPct = 100;
@@ -427,6 +444,7 @@
         loadOrders();
     }
 
+    // 🌟 دالة تحميل الطلبات مع عرض الأزرار الجديدة ومكان الاستلام 🌟
     async function loadOrders() {
         const container = document.getElementById('orders-container');
         container.innerHTML = '<p style="text-align:center; margin-top:20px; font-weight:900;">جاري التحميل... ⏳</p>';
@@ -453,7 +471,12 @@
                 const cardClass = isMy ? 'order-card active-order' : 'order-card';
                 const payBadge = o.isPaid ? `<span class="badge-paid">مدفوع مسبقاً (محفظة)</span>` : `<span class="badge-cash">الدفع كاش (استلم من العميل)</span>`;
                 const feeText = (o.deliveryFee && o.deliveryFee > 0) ? `+ أرباحك: ${o.deliveryFee} SDG` : 'الطلب غير محدد الأرباح';
-                const addressExtract = o.paymentMethod.split('||')[1] || 'عنوان غير معروف';
+                
+                // استخراج بيانات التوصيل بأمان
+                const rawDeliveryDetails = o.paymentMethod.split('||')[1] || 'عنوان غير معروف';
+                const clientPhone = o.clientPhone || rawDeliveryDetails.split('|')[0] || '';
+                const deliveryAddress = rawDeliveryDetails.includes('|') ? rawDeliveryDetails.split('|')[1] : rawDeliveryDetails;
+                const pickupText = o.pickupLocation || 'مستودع بومة المركزي 🏪';
 
                 let actionHtml = '';
                 if(!isMy) {
@@ -461,7 +484,8 @@
                 } else {
                     actionHtml = `
                         <div class="action-flex">
-                            <button class="btn btn-blue" style="flex:1; padding:12px; font-size:14px;" onclick="window.open('tel:${addressExtract.split('|')[0] || ''}')">📞</button>
+                            <button class="btn btn-blue" style="flex:1; padding:12px; font-size:16px;" onclick="callPhone('${clientPhone}')">📞</button>
+                            <button class="btn" style="flex:1; padding:12px; font-size:16px; background: #25D366; color: white;" onclick="openWhatsApp('${clientPhone}')">💬</button>
                             <button class="btn btn-outline-red" style="flex:1.5; padding:12px; font-size:14px;" onclick="openReturnModal('${o._id}')">إرجاع ❌</button>
                             <button class="btn btn-green" style="flex:2; padding:12px; font-size:14px;" onclick="openOtpModal('${o._id}')">تسليم ✅</button>
                         </div>
@@ -477,7 +501,12 @@
                         <div class="o-price">${Number(o.totalAmount).toLocaleString()} SDG</div>
                         <div class="o-fee">${feeText}</div>
                         <div style="margin-top:8px;">${payBadge}</div>
-                        <div class="o-location">📍 ${addressExtract}</div>
+                        
+                        <div style="background: rgba(30, 61, 89, 0.05); padding: 12px; border-radius: 12px; margin-top: 15px; font-size: 13px; font-weight: 900; color: var(--primary); border: 1px solid rgba(30, 61, 89, 0.1);">
+                            📦 الاستلام: ${pickupText}
+                        </div>
+                        
+                        <div class="o-location" style="margin-top: 8px;">📍 التسليم: ${deliveryAddress}</div>
                         ${actionHtml}
                     </div>
                 `;
@@ -519,7 +548,6 @@
         } catch(e) { showToast('خطأ في الاتصال', true); }
     }
 
-    // --- نافذة الـ OTP للتسليم ---
     function openOtpModal(id) { selectedOrderId = id; document.querySelectorAll('.otp-box').forEach(el => el.value = ''); document.getElementById('otp-modal').style.display = 'flex'; document.getElementById('otp-1').focus(); }
     function closeOtpModal() { document.getElementById('otp-modal').style.display = 'none'; selectedOrderId = null; }
 
@@ -536,7 +564,6 @@
         } catch(e) { showToast('خطأ في الاتصال', true); }
     }
 
-    // --- نافذة الإرجاع ---
     function openReturnModal(id) { selectedOrderId = id; document.getElementById('return-modal').style.display = 'flex'; }
     function closeReturnModal() { document.getElementById('return-modal').style.display = 'none'; selectedOrderId = null; }
 
@@ -552,7 +579,6 @@
         } catch(e) { showToast('خطأ في الاتصال بالسيرفر', true); }
     }
 
-    // 🌟 شاشة السجل (History) 🌟
     async function loadHistory() {
         const container = document.getElementById('history-container');
         container.innerHTML = '<p style="text-align:center; font-weight:900;">جاري التحميل... ⏳</p>';
@@ -585,7 +611,6 @@
         } catch(e) { container.innerHTML = '<p style="text-align:center; color:var(--red); font-weight:bold;">خطأ في التحميل</p>'; }
     }
 
-    // 🌟 شاشة الدعم الفني (Support) 🌟
     async function submitSupportTicket() {
         const subject = document.getElementById('sup-subject').value;
         const message = document.getElementById('sup-message').value;
@@ -626,14 +651,11 @@
         } catch(e) { container.innerHTML = '<p style="text-align:center; color:var(--red);">خطأ في التحميل</p>'; }
     }
 
-    // 🌟 شاشة الحساب (Profile) 🌟
     function loadProfile() {
         document.getElementById('profile-name').innerText = courierName;
         document.getElementById('profile-identity').innerText = courierIdentity;
-        // الرقم الخاص بالمبيعات (target-count) يتم تحديثه من دالة loadStats
     }
 
-    // التنقل التلقائي في صناديق الـ OTP
     document.querySelectorAll('.otp-box').forEach((el, idx, arr) => { 
         el.addEventListener('input', () => { 
             el.value = el.value.replace(/[^0-9]/g, '').slice(0, 1); 
