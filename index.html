@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>تطبيق بومة - BOMA App</title>
     <!-- 🌟 ربط ملف الـ Manifest (PWA) 🌟 -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <meta name="theme-color" content="#1e3d59" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
     <!-- ============================================== -->
 
     <!-- 🌟 إضافة خصائص crossorigin و integrity للسكربتات الخارجية 🌟 -->
@@ -934,11 +934,11 @@
         showToast.timer = setTimeout(() => t.style.display = 'none', 3500);
     }
     
-    // 🌟 التعديل الأمني المطبق: استخدام تشفير المتصفح الآمن 🌟
+    // 🌟 التعديل الأمني المطبق: التوافق مع كافة المتصفحات وروابط GitHub 🌟
     function getDeviceId() {
         let id = localStorage.getItem('boma_device_id');
         if (!id) { 
-            id = 'DEV-' + crypto.randomUUID(); 
+            id = 'DEV-' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36); 
             localStorage.setItem('boma_device_id', id); 
         }
         return id;
@@ -2725,15 +2725,10 @@
         }
     });
 
+    // 🌟 تم تعديل مسار التسجيل ليتوافق مع GitHub Pages (استخدام المسار النسبي ./) 🌟
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('✅ ServiceWorker registered successfully!');
-                })
-                .catch(error => {
-                    console.log('❌ ServiceWorker registration failed: ', error);
-                });
+            navigator.serviceWorker.register('./sw.js').catch(() => {});
         });
     }
 
