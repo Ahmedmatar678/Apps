@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>تطبيق بومة - BOMA App</title>
-    <!-- 🌟 التعديل الأول: ربط ملف الـ Manifest (PWA) 🌟 -->
+    <!-- 🌟 ربط ملف الـ Manifest (PWA) 🌟 -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1e3d59" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <!-- ============================================== -->
 
-    <!-- 🌟 التعديل الأمني: إضافة خصائص crossorigin و integrity للسكربتات الخارجية 🌟 -->
+    <!-- 🌟 إضافة خصائص crossorigin و integrity للسكربتات الخارجية 🌟 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQmJg08B5QOAAyF3t1Q/Z0d512a+iQ8Q6a23C/z11+X9v2t2eW2r6n9zFp1F0s+eE6O9/Z9/T+J+P+1R+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous"></script>
     
@@ -209,7 +209,7 @@
         .cat-title-new { font-size: 13px; font-weight: 900; color: #fff; margin-top: 8px; z-index: 2; text-shadow: 0 1px 3px rgba(0,0,0,0.3); } 
         .cat-media-new { font-size: 32px; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
         
-        /* 🔖 العلامة المرجعية الجديدة 🔖 */
+        /* 🔖 العلامة المرجعية 🔖 */
         .wishlist-icon { position: absolute; top: 12px; left: 12px; font-size: 24px; cursor: pointer; z-index: 2; transition: 0.2s; filter: grayscale(100%) opacity(0.5) drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
         .wishlist-icon.active { filter: grayscale(0%) opacity(1) drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transform: scale(1.15); }
@@ -309,7 +309,7 @@
         .validation-msg { font-size: 11px; font-weight: bold; margin-bottom: 12px; display: block; text-align: right; transition: color 0.3s; }
         .val-red { color: var(--red); }
         .val-green { color: var(--green); }
-        /* 🌟 حركة الشعار الداخلي (نبض احترافي كل 5 ثوانٍ) 🌟 */
+        /* 🌟 حركة الشعار الداخلي (نبض احترافي) 🌟 */
         @keyframes bomaProfessionalPulse {
             0%, 100% { transform: scale(1); }
             5% { transform: scale(1.1); filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); }
@@ -934,6 +934,7 @@
         showToast.timer = setTimeout(() => t.style.display = 'none', 3500);
     }
     
+    // 🌟 التعديل الأمني المطبق: استخدام تشفير المتصفح الآمن 🌟
     function getDeviceId() {
         let id = localStorage.getItem('boma_device_id');
         if (!id) { 
