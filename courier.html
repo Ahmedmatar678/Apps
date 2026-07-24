@@ -238,7 +238,7 @@
 
 <script>
     const API_URL = 'https://api.boomapay.com/api';
-    const notificationSound = new Audio('https://actions.google.com/sounds/v1/alarms/notification_high_intensity.ogg'); // 🌟 إضافة الصوت هنا
+    const notificationSound = new Audio('https://actions.google.com/sounds/v1/alarms/notification_high_intensity.ogg'); 
 
     let courierToken = localStorage.getItem('boma_courier_token');
     let currentTab = 'available';
@@ -258,7 +258,11 @@
 
     function getDeviceId() {
         let id = localStorage.getItem('boma_device_id');
-        if (!id) { id = 'DEV-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now(); localStorage.setItem('boma_device_id', id); }
+        if (!id) { 
+            // التعديل الأمني: استبدال Math.random بدالة التشفير الآمنة crypto.randomUUID
+            id = 'DEV-' + crypto.randomUUID(); 
+            localStorage.setItem('boma_device_id', id); 
+        }
         return id;
     }
 
@@ -270,9 +274,7 @@
 
     function openWhatsApp(phoneStr) {
         if(!phoneStr || phoneStr.trim() === '') return showToast('رقم الهاتف غير متاح', true);
-        // تنظيف الرقم من أي نصوص أو مسافات
         let cleaned = phoneStr.replace(/\D/g, '');
-        // تحويل الرقم المحلي إلى دولي
         if(cleaned.startsWith('0')) {
             cleaned = '249' + cleaned.substring(1);
         } else if (cleaned.length === 9) {
@@ -445,7 +447,6 @@
         loadOrders();
     }
 
-    // 🌟 دالة تحميل الطلبات مع عرض الأزرار الجديدة ومكان الاستلام 🌟
     async function loadOrders() {
         const container = document.getElementById('orders-container');
         container.innerHTML = '<p style="text-align:center; margin-top:20px; font-weight:900;">جاري التحميل... ⏳</p>';
@@ -473,7 +474,6 @@
                 const payBadge = o.isPaid ? `<span class="badge-paid">مدفوع مسبقاً (محفظة)</span>` : `<span class="badge-cash">الدفع كاش (استلم من العميل)</span>`;
                 const feeText = (o.deliveryFee && o.deliveryFee > 0) ? `+ أرباحك: ${o.deliveryFee} SDG` : 'الطلب غير محدد الأرباح';
                 
-                // استخراج بيانات التوصيل بأمان
                 const rawDeliveryDetails = o.paymentMethod.split('||')[1] || 'عنوان غير معروف';
                 const clientPhone = o.clientPhone || rawDeliveryDetails.split('|')[0] || '';
                 const deliveryAddress = rawDeliveryDetails.includes('|') ? rawDeliveryDetails.split('|')[1] : rawDeliveryDetails;
@@ -523,7 +523,6 @@
                 if (res.ok) {
                     const orders = await res.json();
                     if (orders.length > availableOrdersCount) {
-                        // 🌟 تشغيل الصوت هنا 🌟
                         notificationSound.play().catch(e => console.log('المتصفح يمنع الصوت التلقائي'));
                         showToast('🚀 تنبيه: يوجد طلب جديد متاح للتوصيل!');
                         if (currentTab === 'available') loadOrders();
