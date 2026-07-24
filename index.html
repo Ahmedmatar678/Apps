@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>تطبيق بومة - BOMA App</title>
-        <!-- 🌟 التعديل الأول: ربط ملف الـ Manifest (PWA) 🌟 -->
+    <!-- 🌟 التعديل الأول: ربط ملف الـ Manifest (PWA) 🌟 -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1e3d59" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <!-- ============================================== -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 🌟 التعديل الأمني: إضافة خصائص crossorigin و integrity للسكربتات الخارجية 🌟 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQmJg08B5QOAAyF3t1Q/Z0d512a+iQ8Q6a23C/z11+X9v2t2eW2r6n9zFp1F0s+eE6O9/Z9/T+J+P+1R+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous"></script>
+    
     <style id="dynamic-ui-style"></style>
     <style>
         html { font-size: 16px; transition: font-size 0.3s ease; }
@@ -69,7 +71,9 @@
         .logo-image-container { width: 115px; height: 115px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.3); overflow: hidden; position: relative; }
         .boma-central-image-logo { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; z-index: 2; }
         .boma-fallback-vector { font-size: 60px; z-index: 1; user-select: none; }
-        .logo-text-brand { font-size: 36px; font-weight: 900; margin-top: 5px; background: linear-gradient(to bottom, var(--accent-orange) 30%, #ffffff 65%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); transition: 0.3s; }
+        
+        /* 🌟 تنفيذ التصحيحات: إزالة أي تدرجات ألوان من النصوص 🌟 */
+        .logo-text-brand { font-size: 36px; font-weight: 900; margin-top: 5px; color: var(--accent-orange); display: inline-block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); transition: 0.3s; }
 
         .glass-card { width: 100%; flex-grow: 1; background: var(--card-bg); border-radius: 40px 40px 0 0; padding: 30px 24px 40px; box-shadow: 0 -15px 35px rgba(0,0,0,0.2); z-index: 10; overflow-y: auto; transition: 0.3s; }
         .glass-card-handle { width: 45px; height: 5px; background: var(--border); border-radius: 3px; margin: -10px auto 20px; }
@@ -299,13 +303,13 @@
 
         @media (max-width: 430px) { body { padding: 0; margin: 0; background: var(--card-bg); overflow: hidden; } .phone-container { width: 100vw; height: 100dvh; border: 0; border-radius: 0; box-shadow: none; margin: 0; } }
         /* تنسيقات حماية كلمة المرور والـ PIN */
-.password-wrapper { position: relative; width: 100%; margin-bottom: 5px; }
-.password-wrapper input { width: 100%; padding-left: 40px; margin-bottom: 0; }
-.toggle-eye { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: var(--text-muted); opacity: 0.7; transition: 0.2s; }
-.toggle-eye:hover { opacity: 1; }
-.validation-msg { font-size: 11px; font-weight: bold; margin-bottom: 12px; display: block; text-align: right; transition: color 0.3s; }
-.val-red { color: var(--red); }
-.val-green { color: var(--green); }
+        .password-wrapper { position: relative; width: 100%; margin-bottom: 5px; }
+        .password-wrapper input { width: 100%; padding-left: 40px; margin-bottom: 0; }
+        .toggle-eye { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: var(--text-muted); opacity: 0.7; transition: 0.2s; }
+        .toggle-eye:hover { opacity: 1; }
+        .validation-msg { font-size: 11px; font-weight: bold; margin-bottom: 12px; display: block; text-align: right; transition: color 0.3s; }
+        .val-red { color: var(--red); }
+        .val-green { color: var(--green); }
         /* 🌟 حركة الشعار الداخلي (نبض احترافي كل 5 ثوانٍ) 🌟 */
         @keyframes bomaProfessionalPulse {
             0%, 100% { transform: scale(1); }
@@ -376,7 +380,7 @@
                 <div style="margin-top: 20px; font-size: 12px; font-weight: 900; color: var(--text-muted);">تم التنفيذ عبر محفظة BOMA Pay</div>
             </div>
             <div style="display: flex; gap: 12px; margin-top: 15px;">
-                <button class="btn-main" style="background: linear-gradient(135deg, var(--accent-orange), #f25522); margin: 0; flex: 1; border:none;" onclick="downloadReceipt()" data-key="btn_download">تحميل 📥</button>
+                <button class="btn-main" style="background: var(--accent-orange); margin: 0; flex: 1; border:none;" onclick="downloadReceipt()" data-key="btn_download">تحميل 📥</button>
                 <button class="btn-main" style="margin: 0; flex: 1; border:none;" onclick="closeReceiptModal()" data-key="btn_close">إغلاق ✖</button>
             </div>
         </div>
@@ -400,12 +404,12 @@
             <div class="form-group" id="login-group-email"><label data-key="label_email">البريد الإلكتروني</label><input type="email" placeholder="name@boma.com" id="login-email"></div>
             <div class="form-group" id="login-group-phone" style="display:none;"><label data-key="label_phone">رقم الهاتف</label><div class="phone-input-wrapper"><select class="phone-country-select" id="login-country-select" onchange="updateCountryRules(this,'login')"></select><input type="tel" class="phone-number-field" id="login-phone" inputmode="numeric"></div></div>
             <div class="form-group">
-    <label data-key="label_pass">كلمة المرور</label>
-    <div class="password-wrapper">
-        <input type="password" placeholder="••••••••" id="login-pass">
-        <span class="toggle-eye" onclick="toggleVisibility('login-pass', this)">👁️</span>
-    </div>
-</div>
+                <label data-key="label_pass">كلمة المرور</label>
+                <div class="password-wrapper">
+                    <input type="password" placeholder="••••••••" id="login-pass">
+                    <span class="toggle-eye" onclick="toggleVisibility('login-pass', this)">👁️</span>
+                </div>
+            </div>
 
             <div style="text-align:start; margin-bottom:12px;"><span style="color:var(--accent-orange); font-size:14px; font-weight:900; cursor:pointer;" onclick="switchScreen('forgot-screen')" data-key="forgot_link">نسيت كلمة المرور؟</span></div>
             <div id="login-error" class="error-message"></div>
@@ -415,28 +419,128 @@
         </div>
     </div>
 
-    <div id="signup-screen" class="screen account-screen"><div class="boma-logo-header-wrapper"><div class="logo-image-container"><img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)"><div class="boma-fallback-vector">🦉</div></div><div class="logo-text-brand" data-key="logo_title">بـــومـــة BOMA</div></div><div class="glass-card"><div class="glass-card-handle"></div><div class="form-title-context" data-key="signup_title">إنشاء حساب جديد</div><div class="auth-method-tabs"><div class="auth-tab active" id="signup-tab-email" onclick="switchAuthMethod('signup','email')" data-key="tab_email">البريد الإلكتروني</div><div class="auth-tab" id="signup-tab-phone" onclick="switchAuthMethod('signup','phone')" data-key="tab_phone">رقم الهاتف</div></div><div class="form-group"><label data-key="label_name">الاسم الكامل</label><input type="text" placeholder="أحمد محمد" id="signup-name"></div><div class="form-group" id="signup-group-email"><label data-key="label_email">البريد الإلكتروني</label><input type="email" placeholder="name@boma.com" id="signup-email"></div><div class="form-group" id="signup-group-phone" style="display:none;"><label data-key="label_phone">رقم الهاتف</label><div class="phone-input-wrapper"><select class="phone-country-select" id="signup-country-select" onchange="updateCountryRules(this,'signup')"></select><input type="tel" class="phone-number-field" id="signup-phone" inputmode="numeric"></div></div><div class="form-group">
-    <label data-key="label_pass">كلمة المرور (للدخول)</label>
-    <div class="password-wrapper">
-        <input type="password" placeholder="••••••••" id="signup-pass">
-        <span class="toggle-eye" onclick="toggleVisibility('signup-pass', this)">👁️</span>
+    <div id="signup-screen" class="screen account-screen">
+        <div class="boma-logo-header-wrapper">
+            <div class="logo-image-container">
+                <img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)">
+                <div class="boma-fallback-vector">🦉</div>
+            </div>
+            <div class="logo-text-brand" data-key="logo_title">بـــومـــة BOMA</div>
+        </div>
+        <div class="glass-card">
+            <div class="glass-card-handle"></div>
+            <div class="form-title-context" data-key="signup_title">إنشاء حساب جديد</div>
+            <div class="auth-method-tabs">
+                <div class="auth-tab active" id="signup-tab-email" onclick="switchAuthMethod('signup','email')" data-key="tab_email">البريد الإلكتروني</div>
+                <div class="auth-tab" id="signup-tab-phone" onclick="switchAuthMethod('signup','phone')" data-key="tab_phone">رقم الهاتف</div>
+            </div>
+            <div class="form-group"><label data-key="label_name">الاسم الكامل</label><input type="text" placeholder="أحمد محمد" id="signup-name"></div>
+            <div class="form-group" id="signup-group-email"><label data-key="label_email">البريد الإلكتروني</label><input type="email" placeholder="name@boma.com" id="signup-email"></div>
+            <div class="form-group" id="signup-group-phone" style="display:none;"><label data-key="label_phone">رقم الهاتف</label><div class="phone-input-wrapper"><select class="phone-country-select" id="signup-country-select" onchange="updateCountryRules(this,'signup')"></select><input type="tel" class="phone-number-field" id="signup-phone" inputmode="numeric"></div></div>
+            <div class="form-group">
+                <label data-key="label_pass">كلمة المرور (للدخول)</label>
+                <div class="password-wrapper">
+                    <input type="password" placeholder="••••••••" id="signup-pass">
+                    <span class="toggle-eye" onclick="toggleVisibility('signup-pass', this)">👁️</span>
+                </div>
+                <span id="pwd-hint" class="validation-msg val-red" style="display: none;">يجب أن تحتوي على 8 خانات (أحرف وأرقام)</span>
+            </div>
+            <div class="form-group">
+                <label style="color: var(--accent-orange);" data-key="label_pin">رمز PIN المالي (6 أرقام للتحويلات)</label>
+                <div class="password-wrapper">
+                    <input type="password" placeholder="123456" id="signup-pin" maxlength="6" inputmode="numeric">
+                    <span class="toggle-eye" onclick="toggleVisibility('signup-pin', this)">👁️</span>
+                </div>
+                <span id="pin-hint" class="validation-msg val-red" style="display: none;">يجب أن يتكون من 6 أرقام غير متطابقة أو متسلسلة</span>
+            </div>
+            <div style="font-size:13px; margin-bottom:15px; font-weight:900; display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="signup-terms" style="width:18px; height:18px;"> 
+                <span id="terms_agree_text">أوافق على <b style="color:var(--primary-blue); cursor:pointer; text-decoration:underline;" onclick="switchScreen('terms-screen')">الشروط والأحكام</b></span>
+            </div>
+            <div id="signup-error" class="error-message"></div>
+            <button class="btn-main" style="background:var(--accent-orange); box-shadow: 0 6px 15px rgba(255,110,64,0.3); border:none;" onclick="handleSignUp()" data-key="btn_send_otp">تأكيد وإرسال الـ OTP</button>
+            <p style="text-align:center; font-size:14px; margin-top:25px; color:var(--text-dark); font-weight:900;" id="login-prompt-text"></p>
+        </div>
     </div>
-    <span id="pwd-hint" class="validation-msg val-red" style="display: none;">يجب أن تحتوي على 8 خانات (أحرف وأرقام)</span>
-</div>
-<div class="form-group">
-    <label style="color: var(--accent-orange);" data-key="label_pin">رمز PIN المالي (6 أرقام للتحويلات)</label>
-    <div class="password-wrapper">
-        <input type="password" placeholder="123456" id="signup-pin" maxlength="6" inputmode="numeric">
-        <span class="toggle-eye" onclick="toggleVisibility('signup-pin', this)">👁️</span>
+
+    <div id="pin-reset-screen" class="screen account-screen">
+        <div class="boma-logo-header-wrapper">
+            <div class="logo-image-container">
+                <img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)">
+                <div class="boma-fallback-vector">🦉</div>
+            </div>
+        </div>
+        <div class="glass-card">
+            <div class="glass-card-handle"></div>
+            <div class="form-title-context" data-key="pin_reset_title">استعادة رمز الـ PIN</div>
+            <p style="text-align:center; font-size:14px; margin-bottom:20px; color:var(--text-dark); font-weight:900;" data-key="pin_reset_desc">أدخل رمز الـ OTP المرسل إليك مع رمز PIN جديد</p>
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-field" id="pin-otp-1" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="pin-otp-2" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="pin-otp-3" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="pin-otp-4" inputmode="numeric">
+            </div>
+            <div class="form-group" style="margin-top: 20px;">
+                <label data-key="label_new_pin">رمز الـ PIN الجديد (6 أرقام)</label>
+                <input type="password" id="new-wallet-pin" maxlength="6" placeholder="••••••" inputmode="numeric" style="text-align:center; font-size:26px; letter-spacing:12px;">
+            </div>
+            <div id="pin-reset-error" class="error-message"></div>
+            <button class="btn-main" onclick="submitPinReset()" data-key="btn_confirm_save" style="border:none;">تأكيد وحفظ</button>
+            <button class="btn-main btn-outline" style="margin-top:12px;" onclick="switchScreen('home-screen', 0)" data-key="btn_cancel">إلغاء</button>
+        </div>
     </div>
-    <span id="pin-hint" class="validation-msg val-red" style="display: none;">يجب أن يتكون من 6 أرقام غير متطابقة أو متسلسلة</span>
-</div>
-<div style="font-size:13px; margin-bottom:15px; font-weight:900; display:flex; align-items:center; gap:8px;"><input type="checkbox" id="signup-terms" style="width:18px; height:18px;"> <span id="terms_agree_text">أوافق على <b style="color:var(--primary-blue); cursor:pointer; text-decoration:underline;" onclick="switchScreen('terms-screen')">الشروط والأحكام</b></span></div><div id="signup-error" class="error-message"></div><button class="btn-main" style="background:linear-gradient(135deg, var(--accent-orange), #f25522); box-shadow: 0 6px 15px rgba(255,110,64,0.3); border:none;" onclick="handleSignUp()" data-key="btn_send_otp">تأكيد وإرسال الـ OTP</button><p style="text-align:center; font-size:14px; margin-top:25px; color:var(--text-dark); font-weight:900;" id="login-prompt-text"></p></div></div>
-    <div id="pin-reset-screen" class="screen account-screen"><div class="boma-logo-header-wrapper"><div class="logo-image-container"><img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)"><div class="boma-fallback-vector">🦉</div></div></div><div class="glass-card"><div class="glass-card-handle"></div><div class="form-title-context" data-key="pin_reset_title">استعادة رمز الـ PIN</div><p style="text-align:center; font-size:14px; margin-bottom:20px; color:var(--text-dark); font-weight:900;" data-key="pin_reset_desc">أدخل رمز الـ OTP المرسل إليك مع رمز PIN جديد</p><div class="otp-inputs"><input type="text" maxlength="1" class="otp-field" id="pin-otp-1" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="pin-otp-2" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="pin-otp-3" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="pin-otp-4" inputmode="numeric"></div><div class="form-group" style="margin-top: 20px;"><label data-key="label_new_pin">رمز الـ PIN الجديد (6 أرقام)</label><input type="password" id="new-wallet-pin" maxlength="6" placeholder="••••••" inputmode="numeric" style="text-align:center; font-size:26px; letter-spacing:12px;"></div>
-<div id="pin-reset-error" class="error-message"></div><button class="btn-main" onclick="submitPinReset()" data-key="btn_confirm_save" style="border:none;">تأكيد وحفظ</button><button class="btn-main btn-outline" style="margin-top:12px;" onclick="switchScreen('home-screen', 0)" data-key="btn_cancel">إلغاء</button></div></div>
-    <div id="otp-screen" class="screen account-screen"><div class="boma-logo-header-wrapper"><div class="logo-image-container"><img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)"><div class="boma-fallback-vector">🦉</div></div></div><div class="glass-card"><div class="glass-card-handle"></div><div class="form-title-context" data-key="otp_title">رمز التحقق OTP</div><div class="otp-inputs"><input type="text" maxlength="1" class="otp-field" id="otp-1" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="otp-2" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="otp-3" inputmode="numeric"><input type="text" maxlength="1" class="otp-field" id="otp-4" inputmode="numeric"></div><div id="otp-error" class="error-message"></div><button class="btn-main" onclick="verifyOTP()" data-key="btn_verify" style="border:none;">تأكيد وتفعيل الحساب</button></div></div>
-    <div id="forgot-screen" class="screen account-screen"><div class="boma-logo-header-wrapper"><div class="logo-image-container"><img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)"><div class="boma-fallback-vector">🦉</div></div></div><div class="glass-card"><div class="glass-card-handle"></div><div class="form-title-context" data-key="forgot_title">استعادة كلمة المرور</div><div class="auth-method-tabs"><div class="auth-tab active" id="forgot-tab-email" onclick="switchAuthMethod('forgot','email')" data-key="tab_email">البريد الإلكتروني</div><div class="auth-tab" id="forgot-tab-phone" onclick="switchAuthMethod('forgot','phone')" data-key="tab_phone">رقم الهاتف</div></div><div class="form-group" id="forgot-group-email"><label data-key="label_email">البريد الإلكتروني</label><input type="email" placeholder="name@boma.com" id="forgot-email"></div><div class="form-group" id="forgot-group-phone" style="display:none;"><label data-key="label_phone">رقم الهاتف</label><div class="phone-input-wrapper"><select class="phone-country-select" id="forgot-country-select" onchange="updateCountryRules(this,'forgot')"></select><input type="tel" class="phone-number-field" id="forgot-phone" inputmode="numeric"></div></div><div id="forgot-error" class="error-message"></div><button class="btn-main" style="background:linear-gradient(135deg, var(--accent-orange), #f25522); box-shadow: 0 6px 15px rgba(255,110,64,0.3); border:none;" onclick="handleForgotSubmit()" data-key="btn_send_otp">إرسال رمز OTP</button><p style="text-align:center; font-size:14px; margin-top:25px; color:var(--text-dark); font-weight:900;" id="forgot-back-text"></p></div></div>
-    <div id="reset-screen" class="screen account-screen"><div class="glass-card"><div class="glass-card-handle"></div><div class="form-title-context" data-key="reset_title">كلمة مرور جديدة</div><div class="form-group"><label data-key="label_new_pass">كلمة المرور الجديدة</label><input type="password" placeholder="••••••••" id="new-pass"></div><button class="btn-main" onclick="handleResetPassword()" data-key="btn_update" style="border:none;">تحديث كلمة المرور</button></div></div>
+
+    <div id="otp-screen" class="screen account-screen">
+        <div class="boma-logo-header-wrapper">
+            <div class="logo-image-container">
+                <img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)">
+                <div class="boma-fallback-vector">🦉</div>
+            </div>
+        </div>
+        <div class="glass-card">
+            <div class="glass-card-handle"></div>
+            <div class="form-title-context" data-key="otp_title">رمز التحقق OTP</div>
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-field" id="otp-1" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="otp-2" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="otp-3" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-field" id="otp-4" inputmode="numeric">
+            </div>
+            <div id="otp-error" class="error-message"></div>
+            <button class="btn-main" onclick="verifyOTP()" data-key="btn_verify" style="border:none;">تأكيد وتفعيل الحساب</button>
+        </div>
+    </div>
+
+    <div id="forgot-screen" class="screen account-screen">
+        <div class="boma-logo-header-wrapper">
+            <div class="logo-image-container">
+                <img src="" alt="BOMA" class="boma-central-image-logo" style="display:none;" onerror="handleLogoImgError(this)">
+                <div class="boma-fallback-vector">🦉</div>
+            </div>
+        </div>
+        <div class="glass-card">
+            <div class="glass-card-handle"></div>
+            <div class="form-title-context" data-key="forgot_title">استعادة كلمة المرور</div>
+            <div class="auth-method-tabs">
+                <div class="auth-tab active" id="forgot-tab-email" onclick="switchAuthMethod('forgot','email')" data-key="tab_email">البريد الإلكتروني</div>
+                <div class="auth-tab" id="forgot-tab-phone" onclick="switchAuthMethod('forgot','phone')" data-key="tab_phone">رقم الهاتف</div>
+            </div>
+            <div class="form-group" id="forgot-group-email"><label data-key="label_email">البريد الإلكتروني</label><input type="email" placeholder="name@boma.com" id="forgot-email"></div>
+            <div class="form-group" id="forgot-group-phone" style="display:none;"><label data-key="label_phone">رقم الهاتف</label><div class="phone-input-wrapper"><select class="phone-country-select" id="forgot-country-select" onchange="updateCountryRules(this,'forgot')"></select><input type="tel" class="phone-number-field" id="forgot-phone" inputmode="numeric"></div></div>
+            <div id="forgot-error" class="error-message"></div>
+            <button class="btn-main" style="background:var(--accent-orange); box-shadow: 0 6px 15px rgba(255,110,64,0.3); border:none;" onclick="handleForgotSubmit()" data-key="btn_send_otp">إرسال رمز OTP</button>
+            <p style="text-align:center; font-size:14px; margin-top:25px; color:var(--text-dark); font-weight:900;" id="forgot-back-text"></p>
+        </div>
+    </div>
+
+    <div id="reset-screen" class="screen account-screen">
+        <div class="glass-card">
+            <div class="glass-card-handle"></div>
+            <div class="form-title-context" data-key="reset_title">كلمة مرور جديدة</div>
+            <div class="form-group"><label data-key="label_new_pass">كلمة المرور الجديدة</label><input type="password" placeholder="••••••••" id="new-pass"></div>
+            <button class="btn-main" onclick="handleResetPassword()" data-key="btn_update" style="border:none;">تحديث كلمة المرور</button>
+        </div>
+    </div>
 
     <div id="home-screen" class="screen">
         <div class="app-header">
@@ -579,7 +683,7 @@
             </div>
             
             <div style="display: flex; gap: 10px; margin-bottom: 20px;" id="product-action-buttons">
-                <button class="btn-main" id="btn-negotiate-main" onclick="openNegotiation()" style="flex: 1; background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 6px 15px rgba(139, 92, 246, 0.3); border:none;">فاوض بالسعر 🤝</button>
+                <button class="btn-main" id="btn-negotiate-main" onclick="openNegotiation()" style="flex: 1; background: var(--primary-blue); border:none;">فاوض بالسعر 🤝</button>
                 <button class="btn-main" id="btn-add-to-cart-main" onclick="triggerAddToCart()" data-key="btn_add_to_cart" style="flex: 1; border:none; margin-top:0;">أضف للسلة 🛒</button>
             </div>
         </div>
@@ -622,7 +726,6 @@
                 <input type="text" id="checkout-name">
             </div>
             
-            <!-- التعديل هنا: حقل التواصل الأساسي مع زر اختياري لإضافة رقم واتساب -->
             <div class="form-group">
                 <label data-key="checkout_phone">رقم التواصل (يفضل رقم الواتساب)</label>
                 <input type="tel" id="checkout-phone" inputmode="numeric" placeholder="مثال: 01xxxxxxx">
@@ -631,7 +734,6 @@
                 </div>
             </div>
 
-            <!-- الحقل المخفي للواتساب -->
             <div class="form-group" id="whatsapp-field-container" style="display: none; transition: 0.3s;">
                 <label>رقم الواتساب (للمراسلة 💬)</label>
                 <input type="tel" id="checkout-whatsapp" inputmode="numeric" placeholder="أدخل رقم الواتساب هنا...">
@@ -659,6 +761,7 @@
             <button class="btn-main btn-outline" onclick="switchScreen('cart-screen',3)" data-key="btn_back_cart">العودة للعربة</button>
         </div>
     </div>
+    
     <div id="settings-screen" class="screen">
         <div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="nav_settings">الإعدادات</div><div></div></div>
         <div class="app-content">
@@ -672,7 +775,7 @@
             <div class="grid-section-title" data-key="settings_general">إعدادات عامة</div>
             
             <!-- زر لوحة التاجر (مخفي افتراضياً ويظهر للتجار فقط) -->
-            <button id="btn-vendor-panel" class="btn-main" style="display: none; background: linear-gradient(135deg, #10b981, #059669); border: none; margin-bottom: 25px; box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);" onclick="openVendorPanel()">🏪 إدارة متجري (لوحة التاجر)</button>
+            <button id="btn-vendor-panel" class="btn-main" style="display: none; background: var(--accent-green); border: none; margin-bottom: 25px;" onclick="openVendorPanel()">🏪 إدارة متجري (لوحة التاجر)</button>
             
             <div style="background: var(--card-bg); border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--border);">
                 <div onclick="toggleTheme()" style="padding: 20px; border-bottom: 2px solid var(--input-bg); display: flex; justify-content: space-between; align-items: center; cursor: pointer;"><strong style="font-size: 15px; color: var(--text-dark);">الوضع الداكن (Dark Mode)</strong><span style="font-size: 22px;" id="theme-icon-display">🌙</span></div>
@@ -743,7 +846,7 @@
 
 
     <div id="transfer-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="transfer_title">تحويل أموال BOMA</div><button class="back-btn" onclick="switchScreen('home-screen',0)">↩</button></div><div class="app-content"><div class="grid-section-title" data-key="transfer_info">بيانات التحويل</div><div class="form-group"><label data-key="receiver_acc">رقم حساب المستلم (10 أرقام)</label><input type="number" id="transfer-receiver" oninput="checkReceiverName()"><div id="receiver-name-display" style="color: var(--accent-green); font-size: 15px; font-weight: 900; margin-top: 10px; display: none;"></div></div><div class="form-group"><label data-key="amount_sdg">المبلغ المراد تحويله (SDG)</label><input type="number" id="transfer-amount" placeholder="0.00"></div><div id="transfer-error" class="error-message"></div><button class="btn-main" onclick="handleTransfer()" data-key="btn_send_money" style="border:none;">إرسال الأموال 💸</button></div></div>
-      <div id="deposit-screen" class="screen">
+    <div id="deposit-screen" class="screen">
         <div class="app-header">
             <div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div>
             <div class="app-header-title" data-key="deposit_title">شحن المحفظة (إيداع)</div>
@@ -771,10 +874,9 @@
     <div id="notifications-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="notif_title">مركز الإشعارات</div><button class="back-btn" onclick="switchScreen('home-screen',0)">↩</button></div><div class="app-content" id="notifications-list-container"></div></div>
     <div id="kyc-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="kyc_title">توثيق الحساب (KYC)</div><button class="back-btn" onclick="switchScreen('settings-screen',4)">↩</button></div><div class="app-content"><div style="background: var(--card-bg); padding: 25px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); border:1px solid var(--border);"><p style="font-size: 14px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.8; font-weight: bold;" data-key="kyc_info">لفتح حدود التحويل المالي، الرجاء إرفاق المستندات الرسمية لتوثيق هويتك.</p><div class="form-group"><label data-key="kyc_doc_type">نوع المستند التعريفي</label><select id="kyc-doc-type"><option value="national_id">بطاقة قومية / رقم وطني</option><option value="passport">جواز سفر (Passport)</option></select></div>
     <div class="form-group">
-    <label>الرقم الوطني / رقم الجواز</label>
-    <input type="text" id="kyc-national-id" placeholder="أدخل الرقم هنا بدقة..." style="direction: ltr; text-align: left; font-family: monospace; letter-spacing: 1px;">
-</div>
-
+        <label>الرقم الوطني / رقم الجواز</label>
+        <input type="text" id="kyc-national-id" placeholder="أدخل الرقم هنا بدقة..." style="direction: ltr; text-align: left; font-family: monospace; letter-spacing: 1px;">
+    </div>
     <div class="form-group"><label data-key="kyc_doc_img">صورة المستند التعريفي</label><div class="file-upload-wrapper" id="wrap-doc"><span id="label-doc">📷</span><input type="file" id="kyc-doc-img" accept="image/*" capture="environment" onchange="updateFileLabel('doc')"></div></div><div class="form-group"><label data-key="kyc_selfie">صورة شخصية (Selfie) للتحقق</label><div class="file-upload-wrapper" id="wrap-selfie"><span id="label-selfie">🤳</span><input type="file" id="kyc-selfie-img" accept="image/*" capture="user" onchange="updateFileLabel('selfie')"></div></div><button class="btn-main" style="background: var(--accent-green); border: none; margin-top: 15px;" onclick="submitKYCDocs()" data-key="btn_send_kyc">إرسال بيانات التوثيق 🛡️</button></div></div></div>
     <div id="support-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="support_title">الدعم الفني</div><button class="back-btn" onclick="switchScreen('settings-screen',4)">↩</button></div><div class="app-content"><div class="grid-section-title" data-key="support_new">إرسال رسالة جديدة</div><div style="background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 25px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); border:1px solid var(--border);"><div class="form-group"><label data-key="support_subject">عنوان المشكلة</label><input type="text" id="sup-subject"></div><div class="form-group"><label data-key="support_msg">تفاصيل المشكلة</label><textarea id="sup-message" rows="4"></textarea></div><button class="btn-main" onclick="submitSupportTicket()" data-key="btn_send_support" style="border:none;">إرسال التذكرة 📩</button></div><div class="grid-section-title" data-key="support_prev">تذاكر الدعم السابقة</div><div id="support-list-container"></div></div></div>
     <div id="terms-screen" class="screen"><div class="app-header"><div class="boma-fixed-icon"><div class="owl-eyes-container"><div class="owl-eye"></div><div class="owl-eye"></div></div><div class="owl-beak"></div></div><div class="app-header-title" data-key="nav_terms">الشروط والخصوصية</div><button class="back-btn" onclick="goBackFromTerms()">↩</button></div><div class="app-content"><div id="terms-dynamic-content" style="background: var(--card-bg); border-radius: 20px; padding: 25px; box-shadow: 0 6px 20px rgba(0,0,0,0.03); line-height: 1.8; font-size: 15px; color: var(--text-dark); text-align: right; font-weight: bold; border:1px solid var(--border);"><h3 style="color: var(--primary-blue); margin-bottom: 15px; text-align: center; font-weight: 900; font-size: 20px;" data-key="terms_h1">شروط الاستخدام وسياسة الخصوصية</h3><p style="margin-bottom: 20px; font-weight: 900; color: var(--text-muted); text-align: center; font-size: 13px;">آخر تحديث: يونيو 2026</p><p style="margin-bottom: 15px;" data-key="terms_p1">مرحباً بك في منصة وتطبيق <strong>"بومة" (BOMA)</strong>. يُشكل استخدامك لهذا التطبيق موافقة قانونية ملزمة على الشروط الموضحة أدناه.</p></div></div></div>
@@ -787,7 +889,7 @@
         <div class="nav-item" onclick="switchScreen('cart-screen')"><div>🛒</div><span data-key="nav_cart">العربة</span></div>
         <div class="nav-item" onclick="switchScreen('settings-screen')"><div>⚙️</div><span data-key="nav_settings">الإعدادات</span></div>
     </div>
-
+</div>
 <script>
     const STORE_KEY = 'boma_app_client_v52';
     const API_URL = 'https://api.boomapay.com/api';
@@ -816,9 +918,13 @@
         showToast.timer = setTimeout(() => t.style.display = 'none', 3500);
     }
     
+    // 🌟 التعديل الأمني المطبق: استخدام تشفير المتصفح الآمن 🌟
     function getDeviceId() {
         let id = localStorage.getItem('boma_device_id');
-        if (!id) { id = 'DEV-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now(); localStorage.setItem('boma_device_id', id); }
+        if (!id) { 
+            id = 'DEV-' + crypto.randomUUID(); 
+            localStorage.setItem('boma_device_id', id); 
+        }
         return id;
     }
     
@@ -902,7 +1008,6 @@
             support_title: 'الدعم الفني', support_new: 'إرسال رسالة جديدة', support_subject: 'عنوان المشكلة', support_msg: 'تفاصيل المشكلة', btn_send_support: 'إرسال التذكرة 📩', support_prev: 'تذاكر الدعم السابقة',
             checkout_info: 'بيانات التوصيل والتواصل', checkout_name: 'اسم المستلم', checkout_phone: 'رقم التواصل', checkout_area: 'منطقة التوصيل', checkout_address: 'العنوان التفصيلي',
             label_pin: 'رمز PIN المالي (6 أرقام للتحويلات)', pin_reset_title: 'استعادة رمز الـ PIN', pin_reset_desc: 'أدخل رمز الـ OTP مع الـ PIN الجديد', label_new_pin: 'رمز الـ PIN الجديد (6 أرقام)', btn_confirm_save: 'تأكيد وحفظ', btn_cancel: 'إلغاء',
-
             terms_h1: 'شروط الاستخدام وسياسة الخصوصية', terms_p1: 'يُشكل استخدامك لهذا التطبيق موافقة قانونية ملزمة على الشروط الموضحة.',
             lbl_p_name: 'اسم المشروع', lbl_p_desc: 'شرح المتطلبات',
             alert_otp: 'رمز التحقق الخاص بك هو:', alert_otp_f: 'رمز استعادة المرور هو:', err_img_size: 'حجم الصورة كبير جداً! (الحد الأقصى 5 ميجابايت)',
@@ -933,7 +1038,6 @@
             support_title: 'Technical Support', support_new: 'Send New Message', support_subject: 'Issue Subject', support_msg: 'Issue Details', btn_send_support: 'Submit Ticket 📩', support_prev: 'Previous Tickets',
             checkout_info: 'Delivery & Contact Details', checkout_name: 'Receiver Name', checkout_phone: 'Contact Number', checkout_area: 'Delivery Area', checkout_address: 'Detailed Address',
             label_pin: 'Financial PIN (6 Digits)', pin_reset_title: 'Recover PIN', pin_reset_desc: 'Enter the OTP and your new PIN', label_new_pin: 'New PIN (6 Digits)', btn_confirm_save: 'Confirm & Save', btn_cancel: 'Cancel',
-
             terms_h1: 'Terms of Use & Privacy Policy', terms_p1: 'Using this app constitutes a binding legal agreement to the terms outlined.',
             lbl_p_name: 'Project Name', lbl_p_desc: 'Requirements',
             alert_otp: 'Your OTP is:', alert_otp_f: 'Your recovery OTP is:', err_img_size: 'Image is too large! (Max 5MB)',
@@ -1042,13 +1146,15 @@
             logoTexts.forEach(el => { el.innerText = ui.loginBrandText; });
         }
         
-        const topColor = ui.loginBrandColorTop || '#ff6e40';
-        const bottomColor = ui.loginBrandColorBottom || '#ffffff';
+        const topColor = ui.loginBrandColorTop || 'var(--accent-orange)';
+        
+        // 🌟 تنفيذ التصحيحات: إزالة أي تدرجات ألوان 🌟
         logoTexts.forEach(el => {
-            el.style.background = `linear-gradient(to bottom, ${topColor} 30%, ${bottomColor} 65%)`;
-            el.style.webkitBackgroundClip = 'text';
-            el.style.webkitTextFillColor = 'transparent';
-            el.style.backgroundClip = 'text';
+            el.style.background = 'none';
+            el.style.color = topColor;
+            el.style.webkitBackgroundClip = 'initial';
+            el.style.webkitTextFillColor = 'initial';
+            el.style.backgroundClip = 'initial';
         });
         
         const homeIconEls = document.querySelectorAll('.boma-fixed-icon');
@@ -1211,15 +1317,14 @@
         const name = document.getElementById('signup-name').value.trim(); const pass = document.getElementById('signup-pass').value; const pin = document.getElementById('signup-pin').value; const terms = document.getElementById('signup-terms').checked; const identity = getIdentity('signup', true);
         if (identity === 'ERR_PHONE') return; const err = document.getElementById('signup-error');
         if (!name || !identity) { err.innerText = currentLang === 'ar' ? 'الرجاء تعبئة الحقول الأساسية' : 'Fill required fields'; err.style.display = 'block'; return; }
-if (!terms) { err.innerText = currentLang === 'ar' ? 'يجب الموافقة على الشروط!' : 'Agree to Terms first!'; err.style.display = 'block'; return; }
+        if (!terms) { err.innerText = currentLang === 'ar' ? 'يجب الموافقة على الشروط!' : 'Agree to Terms first!'; err.style.display = 'block'; return; }
 
-// 🛡️ حراس الأمان للتحقق من كلمة المرور والـ PIN
-const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/;
-if (!pwdRegex.test(pass)) { err.innerText = currentLang === 'ar' ? 'كلمة المرور ضعيفة! يجب أن تكون 8 خانات وتحتوي على أحرف وأرقام' : 'Weak password!'; err.style.display = 'block'; return; }
+        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,32}$/;
+        if (!pwdRegex.test(pass)) { err.innerText = currentLang === 'ar' ? 'كلمة المرور ضعيفة! يجب أن تكون 8 خانات وتحتوي على أحرف وأرقام' : 'Weak password!'; err.style.display = 'block'; return; }
 
-const isAllSame = pin.split('').every(char => char === pin[0]);
-const isSequential = '0123456789'.includes(pin) || '9876543210'.includes(pin);
-if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang === 'ar' ? 'رمز PIN غير آمن! يجب أن يكون 6 أرقام غير متكررة أو متسلسلة' : 'Unsafe PIN!'; err.style.display = 'block'; return; }
+        const isAllSame = pin.split('').every(char => char === pin[0]);
+        const isSequential = '0123456789'.includes(pin) || '9876543210'.includes(pin);
+        if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang === 'ar' ? 'رمز PIN غير آمن! يجب أن يكون 6 أرقام غير متكررة أو متسلسلة' : 'Unsafe PIN!'; err.style.display = 'block'; return; }
 
         err.style.display = 'none'; showToast(currentLang === 'ar' ? 'جاري المعالجة... ⏳' : 'Processing...');
         try {
@@ -1296,7 +1401,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         } catch (error) { err.innerText = (currentLang === 'ar' ? 'خطأ اتصال: ' : 'Network Error: ') + error.message; err.style.display = 'block'; }
     }
 
-    // 🌟 تحديث مهم لتسجيل دور التاجر 🌟
     function startAppShell(token, user) {
         registeredUser = { name: user.name, identity: user.identity, accountNumber: user.accountNumber, balance: user.balance, currency: 'SDG', kycStatus: user.kycStatus, role: user.role || 'user', active: true };
         localStorage.setItem('boma_token', token); saveState(); document.getElementById('lang-toggle-container').style.display = 'none'; switchScreen('home-screen', 0); renderAppDynamicContent(); startAutoSlider();
@@ -1498,11 +1602,10 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         const finalAmount = cartTotal + deliveryCost; const totalDisplay = document.getElementById('payment-final-total'); if (totalDisplay) totalDisplay.innerText = finalAmount.toLocaleString('en-US') + ' SDG';
     }
 
-        function renderDynamicBanners() {
+    function renderDynamicBanners() {
         const carouselContainer = document.getElementById('main-carousel'); const staticBannerContainer = document.getElementById('static-banner-container'); if (!carouselContainer || !staticBannerContainer) return;
         carouselContainer.innerHTML = ''; staticBannerContainer.innerHTML = ''; const carousels = bannersData.filter(b => b.placement === 'carousel'); const statics = bannersData.filter(b => b.placement === 'static');
         
-        // 1. معالجة السلايدر المتحرك (العلوي)
         if (carousels.length === 0) { 
             carouselContainer.innerHTML = `<div class="slider-card" style="background:var(--primary-blue)"><h3>BOMA Platform</h3></div>`; 
         } else { 
@@ -1510,23 +1613,18 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
                 const title = currentLang === 'ar' ? c.arTitle : c.enTitle; 
                 const desc = currentLang === 'ar' ? c.arDesc : c.enDesc; 
                 const safeImg = c.imgUrl || ''; 
-                // إزالة التدرج اللوني الداكن ليظهر التصميم الجاهز بوضوح
                 const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `url('${safeImg}') center/cover no-repeat` : safeImg; 
-                // إخفاء النصوص المكتوبة إذا كانت فارغة في لوحة الإدارة
                 let textContent = (title || desc) ? `<h3>${title}</h3><p>${desc}</p>` : '';
                 carouselContainer.innerHTML += `<div class="slider-card" style="background: ${bgStyle}; width: 100%; height: 100%; border-radius: 12px;">${textContent}</div>`; 
             }); 
         }
         
-        // 2. معالجة البانر الثابت (السفلي)
         if (statics.length > 0) { 
             const s = statics[0]; 
             const title = currentLang === 'ar' ? s.arTitle : s.enTitle; 
             const desc = currentLang === 'ar' ? s.arDesc : s.enDesc; 
             const safeImg = s.imgUrl || ''; 
-            // إزالة التدرج اللوني الداكن ليظهر التصميم الجاهز بوضوح
             const bgStyle = (safeImg.includes('http') || safeImg.includes('data:') || safeImg.includes('Files/')) ? `url('${safeImg}') center/cover no-repeat` : safeImg; 
-            // إخفاء النصوص المكتوبة إذا كانت فارغة في لوحة الإدارة
             let textContent = (title || desc) ? `<div><h4>${title}</h4><p>${desc}</p></div><div class="static-badge" data-key="badge_offers">${languages[currentLang].badge_offers}</div>` : '';
             staticBannerContainer.innerHTML = `<div class="static-banner" style="background: ${bgStyle}; border: none;">${textContent}</div>`; 
         }
@@ -1951,10 +2049,8 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         const phone = document.getElementById('checkout-phone').value;
         const name = document.getElementById('checkout-name').value;
         
-        // 🌟 المنطق الذكي للواتساب 🌟
         const waContainer = document.getElementById('whatsapp-field-container');
         const waInput = document.getElementById('checkout-whatsapp');
-        // إذا كان الحقل ظاهراً وفيه قيمة، خذها. وإلا استخدم رقم التواصل الأساسي
         const whatsappNumber = (waContainer.style.display !== 'none' && waInput && waInput.value.trim() !== '') ? waInput.value.trim() : phone;
         
         if(!address || !phone || !name) return showToast(currentLang === 'ar' ? 'أكمل بيانات التوصيل!' : 'Fill delivery details!', true);
@@ -1962,7 +2058,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         let cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
         const finalAmount = cartTotal + deliveryCost;
         
-        // 🌟 تمرير رقم الواتساب أولاً ليقرأه الكابتن (لزر 💬)، مع إبقاء رقم الاتصال العادي في النهاية (لزر 📞) 🌟
         const detailsStr = `${whatsappNumber} | ${name} | ${areaText} | ${address} | هاتف للاتصال: ${phone}`;
 
         if (selectedPayment === 'wallet') {
@@ -2155,7 +2250,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
         try {
             const token = localStorage.getItem('boma_token');
             
-            // الاتصال بمسار الأتمتة الذي أنشأناه في السيرفر
             const res = await fetch(`${API_URL}/wallet/deposit-auto`, {
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -2172,7 +2266,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             document.getElementById('dep-amount').value = ''; 
             document.getElementById('dep-txn-id').value = ''; 
             
-            // تحديث الرصيد مباشرة في التطبيق ليرى العميل النتيجة فوراً
             if (registeredUser) {
                 registeredUser.balance = data.newBalance;
                 saveState();
@@ -2210,7 +2303,7 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
 
     async function submitKYCDocs() {
         const docType = document.getElementById('kyc-doc-type').value;
-        const nationalId = document.getElementById('kyc-national-id').value.trim(); // 🌟 المتغير الجديد 🌟
+        const nationalId = document.getElementById('kyc-national-id').value.trim();
         const docFile = document.getElementById('kyc-doc-img').files[0];
         const selfieFile = document.getElementById('kyc-selfie-img').files[0];
         
@@ -2224,7 +2317,7 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const token = localStorage.getItem('boma_token');
             const res = await fetch(`${API_URL}/wallet/submit-kyc`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ docType, docImage, selfieImage, nationalId }) // 🌟 إرسال الرقم للسيرفر 🌟
+                body: JSON.stringify({ docType, docImage, selfieImage, nationalId }) 
             });
             const data = await res.json();
             if(!res.ok) return showToast(data.message, true);
@@ -2398,7 +2491,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             const data = await res.json();
             if (res.ok) {
                 showToast('تم نشر المنتج في المتجر! 🎉');
-                // تصفير الحقول
                 document.getElementById('v-brand-name').value = '';
                 document.getElementById('v-name-ar').value = '';
                 document.getElementById('v-name-en').value = '';
@@ -2495,7 +2587,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
             if (!data || !data.uiSettings) return;
             const ui = data.uiSettings;
 
-            // 1. توحيد الشعار في جميع شاشات الحسابات
             const allAuthHeaders = document.querySelectorAll('.boma-logo-header-wrapper');
             allAuthHeaders.forEach(wrapper => {
                 wrapper.style.display = 'flex';
@@ -2511,14 +2602,14 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
                 }
 
                 let rawText = ui.loginBrandText || 'BOMA بومة';
-                let topCol = ui.loginBrandColorTop || '#ff6e40';
-                let botCol = ui.loginBrandColorBottom || '#d35400';
+                let topCol = ui.loginBrandColorTop || 'var(--accent-orange)';
                 
-                let gradientStyle = `background: linear-gradient(135deg, ${topCol}, ${botCol}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;`;
+                // 🌟 تنفيذ التصحيحات: استبدال تدرجات الألوان بلون موحد 🌟
+                let solidStyle = `color: ${topCol}; display: inline-block;`;
 
                 let styledText = rawText
-                    .replace(/O/gi, `<span style="${gradientStyle}">$&</span>`)
-                    .replace(/و/g, `<span style="${gradientStyle}">و</span>`);
+                    .replace(/O/gi, `<span style="${solidStyle}">$&</span>`)
+                    .replace(/و/g, `<span style="${solidStyle}">و</span>`);
 
                 let textHtml = `
                     <div style="text-align: center; width: 100%;">
@@ -2538,7 +2629,6 @@ if (pin.length !== 6 || isAllSame || isSequential) { err.innerText = currentLang
                 wrapper.innerHTML = logoHtml + textHtml;
             });
 
-            // 2. تحديث الأيقونات الصغيرة في الهيدر الداخلي للتطبيق
             const headerLogos = document.querySelectorAll('.boma-fixed-icon');
             headerLogos.forEach(logo => {
                 logo.style.background = 'transparent';
